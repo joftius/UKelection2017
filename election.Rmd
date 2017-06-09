@@ -1,0 +1,70 @@
+---
+title: "The 2017 UK General Election"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+```
+
+## Load the data
+
+```{r, warning = FALSE}
+data <- read.csv("BritainElects.csv", skip = 1, header=T, stringsAsFactors = F)
+data[,7:15] <- lapply(data[,7:15],function(x){as.numeric(gsub(",", "", x))})
+data[is.na(data)] <- 0
+con <- data %>% filter(X2017 == "Con")
+lab <- data %>% filter(X2017 == "Lab")
+nrow(con)
+```
+
+## Labour's weakest seats
+
+Among seats won by Labour, how many might Con + UKIP have won?
+
+```{r}
+labmargin <- with(lab, Con + UKIP - Lab)
+sum(labmargin > 0)
+```
+
+And how many would have been won by a margin of 1000?
+
+```{r}
+sum(labmargin > 1000)
+```
+
+Which seats are these?
+
+```{r}
+print(lab[which(labmargin > 1000), c(1,7,8,12)], row.names = FALSE)
+```
+
+## Tories weakest seats
+
+```{r}
+conmargin <- with(con, Lab + LDem + SNP - Con)
+sum(conmargin > 0)
+```
+
+And how many would have been won by a margin of 1000?
+
+```{r}
+sum(conmargin > 1000)
+```
+
+Which seats are these?
+
+```{r}
+print(con[which(conmargin > 1000), c(1,7:10)], row.names = FALSE)
+```
+
+## Conclusion
+
+It seems pretty safe to say the Conservatives would have **at least 20 fewer seats**, taking them well below the required majority, if Labour, Lib Dem, and SNP voters had coordinated.
+
+**This is a failure of [First-past-the-post](https://en.wikipedia.org/wiki/First-past-the-post_voting) voting systems**.
+
+It is very difficult to communicate with all voters supporting several different parties to get them to adopt a strategy.
+
+**[Better voting systems](https://en.wikipedia.org/wiki/Instant-runoff_voting) accomplish the strategic outcome automatically** and should be a top priority for everyone who supports democracy.
