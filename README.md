@@ -5,7 +5,8 @@ Load the data
 -------------
 
 ``` r
-data <- read.csv("BritainElects.csv", skip = 1, header=T, stringsAsFactors = F)
+data <- read.csv("GE2017 - Constituency results - Sheet1.csv",
+                 skip = 1, header=T, stringsAsFactors = F)
 data[,7:15] <- lapply(data[,7:15],function(x){as.numeric(gsub(",", "", x))})
 data[is.na(data)] <- 0
 con <- data %>% filter(X2017 == "Con")
@@ -25,7 +26,7 @@ labmargin <- with(lab, Con + UKIP - Lab)
 sum(labmargin > 0)
 ```
 
-    ## [1] 13
+    ## [1] 9
 
 And how many would have been won by a margin of 1000?
 
@@ -33,7 +34,7 @@ And how many would have been won by a margin of 1000?
 sum(labmargin > 1000)
 ```
 
-    ## [1] 9
+    ## [1] 5
 
 Which seats are these?
 
@@ -42,15 +43,11 @@ print(lab[which(labmargin > 1000), c(1,7,8,12)], row.names = FALSE)
 ```
 
     ##              Constituency   Con   Lab UKIP
-    ##            Leicester East 35116 12668    0
+    ##                  Ashfield 20844 21285 1885
     ##          Crewe & Nantwich 25880 25928 1885
-    ##                    Exeter 34336 18219    0
     ##              Dudley North 18068 18090 2144
-    ##             Walsall South 25286 16394 1805
-    ##  Wolverhampton North East 12623 12623 1675
     ##                  Keighley 23817 24066 1291
     ##  Penistone & Stocksbridge 21485 22807 3453
-    ##         Sheffield, Heeley 26524 12696 1977
 
 Tories weakest seats
 --------------------
@@ -85,7 +82,7 @@ print(con[which(conmargin > 1000), c(1,7:10)], row.names = FALSE)
     ##   Cities of London & Westminster 18005 14857  4270     0
     ##         Finchley & Golders Green 24599 22942  3463     0
     ##                           Putney 20679 19125  5448     0
-    ##                    Richmond Park 28588  5773 26543     0
+    ##                    Richmond Park 28588  5773 28543     0
     ##                        Wimbledon 23946 18324  7427     0
     ##                          Cheadle 24331 10417 19824     0
     ##                      Hazel Grove 20047  9036 14533     0

@@ -11,7 +11,8 @@ library(dplyr)
 ## Load the data
 
 ```{r, warning = FALSE}
-data <- read.csv("BritainElects.csv", skip = 1, header=T, stringsAsFactors = F)
+data <- read.csv("GE2017 - Constituency results - Sheet1.csv",
+                 skip = 1, header=T, stringsAsFactors = F)
 data[,7:15] <- lapply(data[,7:15],function(x){as.numeric(gsub(",", "", x))})
 data[is.na(data)] <- 0
 con <- data %>% filter(X2017 == "Con")
